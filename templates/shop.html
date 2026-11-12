@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09070e"><title>Retrac Item Shop — RETRAC.GG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">R</span><span>RETRAC<span class="accent">.GG</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation"><a href="/">Overview</a><a class="active" href="/shop">Retrac shop</a><a href="/#tracker">Player tracker</a><a href="/#community">Community</a></nav>
+    <a class="top-link" href="https://retrac.site/tracker" target="_blank" rel="noopener">OFFICIAL RETRAC <span>↗</span></a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </header>
+  <main class="shop-main">
+    <section class="shop-hero">
+      <div class="eyebrow"><span class="pulse"></span> PROJECT RETRAC · COSMETICS</div>
+      <h1>RETRAC<br><span>ITEM SHOP.</span></h1>
+      <p>Каталог предметов именно Project Retrac. Здесь отображаются только предметы, которые добавлены в проверенный каталог.</p>
+      <div class="shop-meta"><span><i></i> COMMUNITY CATALOG</span><span>{{ items|length }} ITEMS</span></div>
+    </section>
+    <section class="shop-tools">
+      <label class="shop-search"><span>⌕</span><input id="shopSearch" type="search" placeholder="Поиск предмета..." autocomplete="off"></label>
+      <select id="rarityFilter" aria-label="Filter by rarity"><option value="">Все редкости</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Epic</option><option>Legendary</option><option>Mythic</option></select>
+    </section>
+    {% if items %}
+    <section class="shop-grid" id="shopGrid">
+      {% for item in items %}
+      <article class="shop-card" data-name="{{ item.name|default('')|lower }}" data-rarity="{{ item.rarity|default('') }}">
+        <div class="shop-card-image">
+          {% if item.image %}<img src="{{ item.image }}" alt="{{ item.name|default('Retrac item') }}" loading="lazy">{% else %}<div class="image-placeholder">RETRAC</div>{% endif %}
+          {% if item.rarity %}<span class="rarity-tag rarity-{{ item.rarity|lower }}">{{ item.rarity }}</span>{% endif %}
+        </div>
+        <div class="shop-card-info"><div><h2>{{ item.name }}</h2><p>{{ item.type|default('Item') }}</p></div><strong>{{ item.price|default('—') }}</strong></div>
+        {% if item.source %}<a class="shop-source" href="{{ item.source }}" target="_blank" rel="noopener">SOURCE ↗</a>{% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    <p class="no-results" id="noResults" hidden>Ничего не найдено. Попробуй другой запрос.</p>
+    {% else %}
+    <section class="shop-empty">
+      <div class="empty-icon">◈</div><div class="section-kicker">CATALOG NOT CONNECTED</div>
+      <h2>МАГАЗИН ПОКА <span>ПУСТ.</span></h2>
+      <p>В публичных материалах пока нет подтверждённого источника каталога Retrac. Поэтому я не стал подставлять обычный Fortnite-магазин или выдуманные товары.</p>
+      <p class="empty-tip">Добавь проверенные предметы и публичные ссылки на изображения в <code>shop_items.json</code> — они появятся здесь автоматически.</p>
+      <a class="primary-button" href="https://discord.com/servers/retrac-1175919536839610512" target="_blank" rel="noopener">RETRAC DISCORD ↗</a>
+    </section>
+    {% endif %}
+    <div class="shop-disclaimer">RETRAC.GG — фанатский проект, не связанный с Retrac или Epic Games. Изображения должны быть публичными и использоваться с разрешения правообладателей.</div>
+  </main>
+  <footer><a class="brand footer-brand" href="/"><span class="brand-mark">R</span><span>RETRAC<span class="accent">.GG</span></span></a><span>COMMUNITY-MADE PROJECT · NOT AFFILIATED WITH EPIC GAMES OR RETRAC</span><a href="https://retrac.site/tracker" target="_blank" rel="noopener">OFFICIAL RETRAC ↗</a></footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    const search = document.getElementById('shopSearch');
+    const rarity = document.getElementById('rarityFilter');
+    const cards = [...document.querySelectorAll('.shop-card')];
+    function filterShop(){
+      const q=(search?.value||'').toLowerCase().trim(); const r=rarity?.value||''; let shown=0;
+      cards.forEach(card=>{const ok=card.dataset.name.includes(q)&&(!r||card.dataset.rarity===r);card.hidden=!ok;if(ok)shown++;});
+      const empty=document.getElementById('noResults');if(empty)empty.hidden=shown!==0;
+    }
+    search?.addEventListener('input',filterShop);rarity?.addEventListener('change',filterShop);
+  </script>
+</body></html>

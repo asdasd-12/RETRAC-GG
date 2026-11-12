@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09070e">
+  <title>RETRAC.GG — Retrac Community Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">R</span>
+      <span>RETRAC<span class="accent">.GG</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="active" href="#home">Overview</a>
+      <a href="#tracker">Player tracker</a>
+      <a href="/shop">Retrac shop</a>
+      <a href="#leaderboards">Leaderboards</a>
+      <a href="#community">Community</a>
+    </nav>
+    <a class="top-link" href="{{ official_tracker }}" target="_blank" rel="noopener">OFFICIAL RETRAC <span>↗</span></a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> COMMUNITY TRACKER · PROJECT RETRAC</div>
+        <h1>TRACK YOUR GAME.<br><span>OWN THE LOBBY.</span></h1>
+        <p class="hero-description">A community hub for Retrac players. Find player profiles, explore rankings and jump into the official tracker.</p>
+
+        <form class="search-form" action="/search" method="get" id="searchForm">
+          <span class="search-icon">⌕</span>
+          <input id="playerSearch" type="search" name="q" value="{{ query }}" placeholder="Enter player name, Discord ID or Retrac ID..." autocomplete="off">
+          <button type="submit">SEARCH <span>↗</span></button>
+        </form>
+        {% if searched and query %}
+        <div class="search-result">
+          <div>
+            <strong>Search ready: {{ query }}</strong>
+            <small>Continue in the official Retrac tracker to view verified results.</small>
+          </div>
+          <a href="{{ official_tracker }}" target="_blank" rel="noopener">OPEN RETRAC ↗</a>
+        </div>
+        {% else %}
+        <div class="search-hint">Search is handled by Retrac's official tracker. No fake stats, no made-up profiles.</div>
+        {% endif %}
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-a"></div>
+        <div class="orbit orbit-b"></div>
+        <div class="hero-emblem">
+          <div class="emblem-inner">
+            <span class="emblem-r">R</span>
+            <span class="emblem-label">RETRAC</span>
+          </div>
+        </div>
+        <div class="floating-tag tag-top"><span class="tag-dot"></span> PLAYER INTEL</div>
+        <div class="floating-tag tag-bottom">COMMUNITY <b>01</b></div>
+      </div>
+    </section>
+
+    <section class="quick-stats" aria-label="Platform highlights">
+      <div class="stat-item"><span class="stat-icon">⌕</span><div><strong>PLAYER</strong><small>SEARCH</small></div></div>
+      <div class="stat-item"><span class="stat-icon">♛</span><div><strong>RANK</strong><small>EXPLORER</small></div></div>
+      <div class="stat-item"><span class="stat-icon">◈</span><div><strong>SKIN</strong><small>DISCOVERY</small></div></div>
+      <div class="stat-item"><span class="stat-icon">▦</span><div><strong>EVENT</strong><small>HUB</small></div></div>
+    </section>
+
+    <section class="section" id="tracker">
+      <div class="section-heading">
+        <div><div class="section-kicker">EXPLORE THE DATA</div><h2>YOUR RETRAC <span>HUB</span></h2></div>
+        <span class="section-index">01 / EXPLORE</span>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card feature-large" href="{{ official_tracker }}" target="_blank" rel="noopener">
+          <div class="feature-top"><span class="feature-icon">◎</span><span class="card-arrow">↗</span></div>
+          <div class="feature-content"><span class="card-label">PLAYER LOOKUP</span><h3>PLAYER<br>TRACKER</h3><p>Look up players using Retrac's official search.</p></div>
+          <div class="card-glow"></div>
+        </a>
+        <a class="feature-card" href="{{ official_tracker }}" target="_blank" rel="noopener">
+          <div class="feature-top"><span class="feature-icon">♛</span><span class="card-arrow">↗</span></div>
+          <div class="feature-content"><span class="card-label">COMPETE</span><h3>LEADERBOARDS</h3><p>Explore rankings on the official tracker.</p></div>
+          <div class="card-glow"></div>
+        </a>
+        <a class="feature-card" href="{{ official_tracker }}" target="_blank" rel="noopener">
+          <div class="feature-top"><span class="feature-icon">◈</span><span class="card-arrow">↗</span></div>
+          <div class="feature-content"><span class="card-label">COSMETICS</span><h3>TOP SKINS</h3><p>Discover skin information through Retrac.</p></div>
+          <div class="card-glow"></div>
+        </a>
+        <a class="feature-card" href="{{ official_tracker }}" target="_blank" rel="noopener">
+          <div class="feature-top"><span class="feature-icon">▦</span><span class="card-arrow">↗</span></div>
+          <div class="feature-content"><span class="card-label">COMPETITIVE</span><h3>TOURNAMENTS</h3><p>Open official Retrac event information.</p></div>
+          <div class="card-glow"></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="official-panel" id="leaderboards">
+      <div class="official-copy">
+        <div class="section-kicker">LIVE SOURCE</div>
+        <h2>POWERED BY<br><span>OFFICIAL RETRAC</span></h2>
+        <p>Player records and rankings belong to Retrac. Use the official tracker for current results and verified information.</p>
+        <a class="primary-button" href="{{ official_tracker }}" target="_blank" rel="noopener">OPEN OFFICIAL TRACKER <span>↗</span></a>
+      </div>
+      <div class="source-card">
+        <div class="source-card-header"><span class="source-light"></span> SOURCE CONNECTION</div>
+        <div class="source-logo">RETRAC<span>.SITE</span></div>
+        <div class="source-status"><span class="status-dot"></span> OFFICIAL WEBSITE LINK</div>
+        <div class="source-line"></div>
+        <div class="source-foot"><span>DATA PROVIDER</span><b>RETRAC</b></div>
+      </div>
+    </section>
+
+    <section class="community-strip" id="community">
+      <div><div class="section-kicker">BUILT FOR THE COMMUNITY</div><h2>NO ACCOUNT NEEDED. <span>JUST PLAY.</span></h2><p>Open access community interface. No registration or account linking.</p></div>
+      <a class="outline-button" href="{{ official_tracker }}" target="_blank" rel="noopener">VISIT RETRAC <span>↗</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="/"><span class="brand-mark">R</span><span>RETRAC<span class="accent">.GG</span></span></a>
+    <span>COMMUNITY-MADE PROJECT · NOT AFFILIATED WITH EPIC GAMES OR RETRAC</span>
+    <a href="{{ official_tracker }}" target="_blank" rel="noopener">OFFICIAL RETRAC ↗</a>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
